@@ -10,6 +10,7 @@ let x = 0
 let y = 0
 let r = 0
 let lastMessageTime = 0
+let connected = false
 
 // Radio receiver: parse motion commands
 radio.onReceivedValue(function (name, value) {
@@ -29,28 +30,13 @@ basic.forever(function () {
         x = 0
         y = 0
         r = 0
-        basic.showIcon(IconNames.Asleep)
+        if (connected) {
+            connected = false
+            basic.showIcon(IconNames.Asleep)
+        }
     } else {
-        // Show motion indicator
-        if (Math.abs(y) > 20) {
-            basic.showLeds(`
-                . . # . .
-                . # # # .
-                # . # . #
-                . . # . .
-                . . # . .
-                `)
-        } else if (Math.abs(x) > 20) {
-            basic.showLeds(`
-                . . # . .
-                . # . . .
-                # # # # #
-                . # . . .
-                . . # . .
-                `)
-        } else if (Math.abs(r) > 20) {
-            basic.showIcon(IconNames.Rollerskate)
-        } else {
+        if (!connected) {
+            connected = true
             basic.showIcon(IconNames.Yes)
         }
     }

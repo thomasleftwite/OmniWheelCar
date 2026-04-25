@@ -37,9 +37,9 @@ basic.forever(function () {
 
     // 3. Button Control for Rotation (Spin)
     if (input.buttonIsPressed(Button.A)) {
-        r = -150 // Spin Left
+        r = 150 // Spin Left
     } else if (input.buttonIsPressed(Button.B)) {
-        r = 150  // Spin Right
+        r = -150  // Spin Right
     } else {
         r = 0
     }
@@ -49,14 +49,7 @@ basic.forever(function () {
     radio.sendValue("y", Math.constrain(y, -255, 255))
     radio.sendValue("r", Math.constrain(r, -255, 255))
 
-    // 5. Visual Feedback on Controller
-    if (Math.abs(y) > 50 || Math.abs(x) > 50 || Math.abs(r) > 50) {
-        led.plot(2 + x / 100, 2 + y / 100)
-    } else {
-        basic.showIcon(IconNames.SmallDiamond)
-    }
-
-    basic.pause(50)
+    basic.pause(20) // Faster loop timing
 })
 
 // Optional: Calibration or stop command on shake
